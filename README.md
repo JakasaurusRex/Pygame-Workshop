@@ -141,6 +141,7 @@ def load_image(path, scale):
     return image
 
 # setup the background images and return an array with all the background images
+# note: the order the backgrounds are loaded in is the order they are loaded in, backgrounds with the most depth first!!!
 def setup_backgrounds():
     background_1 = load_image('dino-pygame/assets/background/bg1.png', 2)
     background_2 = load_image('dino-pygame/assets/background/bg2.png', 2)
@@ -165,7 +166,7 @@ def draw_floor(screen, floor):
     screen.blit(floor, (0,screen.get_height()-floor.get_height()))
 ```
 
-After running this we will now see a much prettier background!
+After running this we will now see a much prettier background with our layered background and colorful floor! 
 
 <img width="763" alt="Screenshot 2025-04-28 at 6 07 04 PM" src="https://github.com/user-attachments/assets/7d530bd6-03c9-4eed-a16a-bb3d9c679a88" />
 
