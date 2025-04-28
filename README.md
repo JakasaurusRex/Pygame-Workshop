@@ -170,6 +170,9 @@ After running this we will now see a much prettier background with our layered b
 
 <img width="763" alt="Screenshot 2025-04-28 at 6 07 04 PM" src="https://github.com/user-attachments/assets/7d530bd6-03c9-4eed-a16a-bb3d9c679a88" />
 
+## Setting up our Dinobro
+
+Now that we have a fancy backgrounds, lets add our character into our game. The character sprite we are going to be using is in the same [assets folder of the github repository](https://github.com/JakasaurusRex/Pygame-Workshop/tree/main/dino-pygame/assets) as before in the character subfolder! 
 
 ## Acknowledgements
 This workshop was created by Jake Torres for students in ENGI1006 Spring 2025
