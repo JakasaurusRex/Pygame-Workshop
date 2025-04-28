@@ -37,33 +37,36 @@ To get started lets open a new python file and you can call it whatever you want
 ```
 import pygame
 
-# pygame setup
-pygame.init()
-screen = pygame.display.set_mode((640, 480))
-clock = pygame.time.Clock()
-running = True
+def main():
+    # pygame setup
+    pygame.init()
+    screen = pygame.display.set_mode((768, 432))
+    clock = pygame.time.Clock()
+    running = True
 
-# MAIN GAME LOOP
-while running:
-    # poll for events
-    # pygame.QUIT event means the user clicked X to close your window
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
+    # MAIN GAME LOOP
+    while running:
+        # poll for events
+        # pygame.QUIT event means the user clicked X to close your window
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
 
-    # fill the screen with a color to wipe away anything from last frame
-    screen.fill("purple")
+        # fill the screen with a color to wipe away anything from last frame
+        screen.fill("purple")
 
-    # HERE WE CAN DRAW ANYTHING TO THE SCREEN AND DO OUR GAME LOGIC!!
+        # flip() the display to put your work on screen
+        pygame.display.flip()
 
-    # flip() the display to put your work on screen
-    pygame.display.flip()
+        # limits Frames Per second displayed to 60
+        clock.tick(60)  
 
-    # limits Frames Per second displayed to 60
-    clock.tick(60)  
+    # Close pygame and clean up resources 
+    pygame.quit()
+    
 
-# Close pygame and clean up resources 
-pygame.quit()
+if __name__ == "__main__":
+    main()
 ```
 
 After running the code your program should display a purple screen! So whats going on here? Lets step through every line. In the following lines of code, we are importing the library and initializing everything we are going to need to run our program. First we need a screen to display our game on, and set_mode lets us pick the size of the window. The clock will be used to make sure that the game behaves the same regardless of what computer we run the program on, some computers display faster or slower than other computers. We will later use the clock to ensure that those speeds do not effect our physics. Lastly running will be a boolean thats true or false depending upon if our game is running our not!
