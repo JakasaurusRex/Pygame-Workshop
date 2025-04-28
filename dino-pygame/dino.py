@@ -7,6 +7,7 @@ def load_image(path, scale):
     return image
 
 # setup the background images and return an array with all the background images
+# note: the order the backgrounds are loaded in is the order they are loaded in, backgrounds with the most depth first!!!
 def setup_backgrounds():
     background_1 = load_image('dino-pygame/assets/background/bg1.png', 2)
     background_2 = load_image('dino-pygame/assets/background/bg2.png', 2)
