@@ -20,6 +20,12 @@ In this workshop we will learn the basics of Pygame by making our own version of
 
 https://github.com/user-attachments/assets/f459a610-bea2-45fe-bb45-70a064fe10fe
 
+Let's get started!
+
+# Installing Pygame
+
+
+
 
 ## Acknowledgements
 This workshop was created by Jake Torres for students in ENGI1006 Spring 2025
