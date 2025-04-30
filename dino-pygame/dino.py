@@ -57,7 +57,7 @@ class ObstacleHandler():
         self.time_to_next_obstacle = pygame.time.get_ticks() + random.randint(OBSTACLE_SPAWN_RATE[0], OBSTACLE_SPAWN_RATE[1]) # time until the next obstacle spawns
     
     # add an obstacle class to the list of possible obstacles
-    def add_obstacle(self, obstacle_class):
+    def add_obstacle_class(self, obstacle_class):
         self.obstacle_classes.append(obstacle_class)
 
     # spawn an obstacle - called every frame, checks clock to see if we have passed time for next obstacle
@@ -101,7 +101,6 @@ class Obstacle:
         self.x = 0
         self.y = 0
         self.x_vel = 0
-
         # collider rect is pretty much a box around the object that represents where it can be hit
         self.collider_rect = pygame.Rect(0,0,1,1) 
 
@@ -281,7 +280,7 @@ def main():
 
     # create the obstacle handler and add the stump as one of the classes that cna be instantiated
     obstacle_handler = ObstacleHandler()
-    obstacle_handler.add_obstacle(Stump)
+    obstacle_handler.add_obstacle_class(Stump)
 
     # MAIN GAME LOOP
     while running:
