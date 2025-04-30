@@ -24,7 +24,7 @@ Above is the source code for Pygame publicly available on Github!
 
 In this workshop we will learn the basics of Pygame by making our own version of the offline Google Dinosaur game! 
 
-![image](https://github.com/user-attachments/assets/23312597-1f04-4ec6-aed7-def5cecdf691)
+<img src="https://storage.googleapis.com/gweb-uniblog-publish-prod/original_images/Dino_non-birthday_version.gif" alt="Dinosaur Game">
 
 Let's get started!
 
