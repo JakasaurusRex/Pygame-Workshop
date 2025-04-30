@@ -611,3 +611,8 @@ If anything didn't work for you, you can always check out my source code availab
 
 ## Acknowledgements
 This workshop was created by Jake Torres for students in ENGI1006 Spring 2025
+
+Heres where the assets we used are from:
+- Parallax Background - https://jesse-m.itch.io/jungle-pack
+- Dinosaur - https://arks.itch.io/dino-characters
+- Tree stump - https://free-game-assets.itch.io/free-swamp-2d-tileset-pixel-art
