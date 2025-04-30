@@ -129,6 +129,7 @@ screen.blit(potato, (0,0))
 ```
 
 In Pygame the coordinate system for drawing to the screen starts in the top left corner of the display and increases in X and Y value as we move down and to the right, like shown in the figure below.
+
 ![image](https://github.com/user-attachments/assets/83336539-98d7-4b98-a720-4429fefe1c3d)
 
 Using all of this information, we can now create a fancy background and floor for our game. In the [assets folder of the github repository](https://github.com/JakasaurusRex/Pygame-Workshop/tree/main/dino-pygame/assets) you can find a bunch of images that I will be using to create the game, you can use your own images but you might need to change the size of your window to fit your backgrounds!
