@@ -5,7 +5,7 @@ Learn how to create games with Python by creating your first basic game with Pyg
 - [**Getting Started**](#getting-started)
 - [**Setting up our Dinobro**](#setting-up-our-dinobro)
 - [**Stumped - Collision and Obstacles**](#stumped)
-- [**Acknowledgements**](##acknowledgements)
+- [**Acknowledgements**](#acknowledgements)
 
 # The Prelude 
 ## What is Pygame? 
