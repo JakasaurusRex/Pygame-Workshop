@@ -1,6 +1,12 @@
 # Pygame Workshop!
 Learn how to create games with Python by creating your first basic game with Pygame!
 
+- [**The Prelude - What is Pygame?**](#the-prelude)
+- [**Getting Started**](#getting-started)
+- [**Setting up our Dinobro**](#setting-up-our-dinobro)
+- [**Stumped - Collision and Obstacles**](#stumped)
+- [**Acknowledgements**](##acknowledgements)
+
 # The Prelude 
 ## What is Pygame? 
 
@@ -30,9 +36,7 @@ Make sure before getting started to install pygame by running the following comm
 pip install pygame
 ```
 
-# Dino Time
-
-## Getting Started!!
+# Getting Started!!
 
 To get started lets open a new python file and you can call it whatever you want. You can copy this skeleton code into your file to get started. Don't worry if it looks complicated we are going to step through every line and learn what is happening!
 
@@ -170,7 +174,7 @@ After running this we will now see a much prettier background with our layered b
 
 <img width="763" alt="Screenshot 2025-04-28 at 6 07 04 PM" src="https://github.com/user-attachments/assets/7d530bd6-03c9-4eed-a16a-bb3d9c679a88" />
 
-## Setting up our Dinobro
+# Setting up our Dinobro
 
 Now that we have a fancy backgrounds, lets add our character into our game. The character sprite we are going to be using is in the same [assets folder of the github repository](https://github.com/JakasaurusRex/Pygame-Workshop/tree/main/dino-pygame/assets) as before in the character subfolder! 
 
