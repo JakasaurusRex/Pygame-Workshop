@@ -337,6 +337,273 @@ Try messing around with variables and set your own jump velocity and gravitys to
 
 <img width="768" alt="Screenshot 2025-04-30 at 4 06 35 PM" src="https://github.com/user-attachments/assets/dfc7b5fe-637a-42da-a368-981b4eebd5f3" />
 
+# Stumped
+
+The last feature we are going to add is obstacles and collision! This is going to be the most complicated and important feature so take your time going through this! 
+
+## Rects and Collision
+
+In Pygame, we can check for collisions by using Rect objects. Rects are exactly what you think they are. They are just square boxes with a x, and y position of the top left corner and then a width and a height. Rects can be used to check for collision using the ```rect.colliderect()``` function. How it works is you pass in another Rect into the parenthesis and it determines if there is any overlap of the rectangles like below.
+
+<img width="140" alt="Screenshot 2025-04-30 at 7 05 03 PM" src="https://github.com/user-attachments/assets/50a1802a-dbb5-4913-876d-ecb47de30b0d" />
+
+We can add a rectangle to the Dinosaur that has the same position as the dinosaur itself, and the same width and height as the surface. Then we can add Rectangles to our obstacles that we can check if are colliding with the player Dinosaur. If you are confused by how this works, [this video by Coding with Russ explains it super easily!](https://www.youtube.com/watch?v=BHr9jxKithk) It is also what I used to wrap my head around it!
+
+## Updating Mr Dino
+
+Ok so like we mentioned lets update our dinosaur by adding a collision Rect to them. We are only going to have to change 2 functions.
+
+```
+# intialize the surfaces for each of the states - run 1 and run 2 are used to make it look like the dinosaur is running
+def setup_dino(self):
+    self.dino_idle = load_image('dino-pygame/assets/dino/dino_idle.png', 4)
+    self.dino_jump = load_image('dino-pygame/assets/dino/dino_jump.png', 4)
+    self.dino_run1 = load_image('dino-pygame/assets/dino/dino_run1.png', 4)
+    self.dino_run2 = load_image('dino-pygame/assets/dino/dino_run2.png', 4)
+
+    # instantiate the collider rect with the default position and the width and height
+    self.collider_rect = pygame.Rect( 0, 0, self.get_width(), self.get_height())
+
+# return the dinos collider rect
+def get_collider_rect(self):
+    return self.collider_rect
+
+# update the position of the dinosaur
+    def set_position(self, x, y, is_floor=False):
+        self.x = x
+        self.y = y
+
+        # update the collider rect with the new position
+        self.collider_rect.topleft = (x, y)
+
+        # if the y we are passing in is the same as the floor, we can set this bool to true and update value
+        if is_floor:
+            self.floor_y = y
+```
+
+First we just create a collider_rect that is the same position as the default position (0,0) and has the same width and height as our dinosaur. Then we add a function to return that collider rect so that it can be accessed outside of the dinosaur and lastly we need to make sure we update the position of the collider rect every time we move the dinosaur.
+
+Thats all we have to update here!
+
+## Obstacle Class and Inheiritance
+
+Just like Homework 9 again, we are going to use object orientated programming to setup our Obstacle class and any other classes that want to inherit from it. In the future, if we want to add new obstacles it will make it easier to get started! 
+
+So first lets create our base class for our obstacles.
+
+```
+# base obstacle class
+class Obstacle:
+    def __init__(self):
+        self.x = 0
+        self.y = 0
+        self.x_vel = 0
+
+        # collider rect is pretty much a box around the object that represents where it can be hit
+        self.collider_rect = pygame.Rect(0,0,1,1) 
+
+        # if a obstacle is active it is on the screen, otherwise its inactive and can be despawned
+        self.active = True
+
+    # update the positon of the obstacle and collider
+    def set_position(self, x, y):
+        self.x = x
+        self.y = y
+        self.collider_rect.topleft = (self.x, self.y)
+
+    # return the collider rect
+    def get_collider_rect(self):
+        return self.collider_rect
+    
+    def draw(self, screen):
+        # Should be overridden by subclasses
+        pass
+
+    def physics(self):
+        # Should be overridden by subclasses
+        pass
+```
+
+For our init function we just instantiate a bunch of the variables we are gonna use like the position, the x-velocity since all the obstacles will be coming from the right of the screen, our collision rectangle and one more variable for whether or not the object is active or not. This is going to be used to despawn our objects when they are off the screen on the left so they don't continue to take up memory after they are no longer being used. 
+
+We additionally have some other functions that look similar to the ones we saw in the Dinosaur. 
+
+We are now going to create a class that inherits from this Obstacle class called Stump, that will draw Stump objects to the screen using the asset in the [assets folder of the github repository](https://github.com/JakasaurusRex/Pygame-Workshop/tree/main/dino-pygame/assets) that we used before. 
+
+```
+ stump class - inherits from obstacle and uses the stump asset 
+class Stump(Obstacle):
+    def setup_stump(self):
+        self.stump_sprite = load_image('dino-pygame/assets/obstacles/stump.png', 2)
+        # setup the collider rect with the width and height of the stump
+        self.collider_rect = pygame.Rect( 0, 0, self.get_width(), self.get_height())
+
+     # get the height of the stump surface
+    def get_height(self):
+        return self.stump_sprite.get_height()
+    
+    # get the width of the stump surface
+    def get_width(self):
+        return self.stump_sprite.get_width()
+    
+    # draw to the screen
+    def draw(self, screen):
+        screen.blit(self.stump_sprite, (self.x, self.y))
+    
+    # set position and collider position
+    def set_position(self, x, y):
+       self.x = x
+       self.y = y
+       self.collider_rect.topleft = (x, y)
+    
+    # stump just moves left - also check if its off screen for setting inactive
+    def physics(self):
+        new_x_pos = self.x + STUMP_VEL
+        self.set_position(new_x_pos, self.y)
+
+        if new_x_pos < 0 - self.get_width():
+            self.active = False
+            
+    # return the collider rect
+    def get_collider_rect(self):
+        return self.collider_rect
+
+    # call obstacle init and setup the stump
+    def __init__(self):
+        super().__init__() 
+        self.setup_stump()
+```
+
+This also looks pretty similar to what we have seen before with the only note that we are deactivating the object after it passes off screen in the phyiscs method. We are also using another global variable I created for the stumps velocity!
+
+```
+# velocity the stump moves to the left
+STUMP_VEL = -15
+```
+
+## The Obstacle Handler
+
+Theres going to be a lot of obstacles on screen. A common practice in game development is to create manager objects or an object that handle the behavior of a lot of other objects, such as enemies, particles and obstacles!
+
+We are going to replicate that same behavior in our game by creating a Obstacle Handler class that will utilize a bunch of stuff we have seen over the course of this semester!
+
+```
+# Obstacle handler class that spawns, despawns, and checks for collisions with obstacles
+class ObstacleHandler():
+    def __init__(self):
+        self.obstacle_classes = [] # this is a list of the classes of obstacles it can spawn!
+        self.obstacles = [] # list of the current existing obstacles
+        self.time_to_next_obstacle = pygame.time.get_ticks() + random.randint(OBSTACLE_SPAWN_RATE[0], OBSTACLE_SPAWN_RATE[1]) # time until the next obstacle spawns
+    
+    # add an obstacle class to the list of possible obstacles
+    def add_obstacle_class(self, obstacle_class):
+        self.obstacle_classes.append(obstacle_class)
+
+    # spawn an obstacle - called every frame, checks clock to see if we have passed time for next obstacle
+    def spawn_obstacle(self, clock):
+        if pygame.time.get_ticks() >= self.time_to_next_obstacle:
+            # update the next obstacle timer
+            self.time_to_next_obstacle = pygame.time.get_ticks() + random.randint(OBSTACLE_SPAWN_RATE[0], OBSTACLE_SPAWN_RATE[1])
+            if len(self.obstacle_classes) > 0:
+                new_obstacle_class = random.choice(self.obstacle_classes) # chose a new random obstacle
+                new_obstacle = new_obstacle_class()
+
+                # set its position to be on the floor - the + 5 is just to make sure it lines up nicely
+                new_obstacle.set_position(SCREEN_WIDTH + new_obstacle.get_width(), FLOOR_HEIGHT - new_obstacle.get_height() + 5) 
+                self.obstacles.append(new_obstacle)
+
+    # draw all the obstacles
+    def draw_obstacles(self, screen):
+        for obstacle in self.obstacles:
+            obstacle.draw(screen)
+    
+    # update the physcis for all the obstacles
+    def obstacles_physics(self):
+        for obstacle in self.obstacles:
+            obstacle.physics()
+
+        # if a obstacle is off screen we set it to inactive - we remove all the ianctive obstacles from the list and they despawn
+        self.obstacles = [o for o in self.obstacles if o.active]
+
+    # check if an objects collider rect has collided with any of the obstacles collider rects
+    def check_collisions(self, object_collider_rect):
+        for obstacle in self.obstacles:
+            # collide_rect returns true if a collision occurs between 2 rects
+            if object_collider_rect.colliderect(obstacle.get_collider_rect()): 
+                return True
+            
+        return False
+```
+
+Lets step this all slowly so we understand everything. The obstacle handler is going to have a list of all the classes that it can spawn. That list is the ```obstacle_classes``` list and we are going to add the Stump class to that list. It's also going to have a list of all the obstacles that are on the screen or were recently spawned. Lastly its going to have a variable that stores the time until the next obstacle should spawn using ```random.randint``` on a range I specified in the global variables:
+
+```
+# the interval at which obstacles can spawn in MS
+OBSTACLE_SPAWN_RATE = [500, 1500]
+```
+
+```pygame.time.get_ticks()``` returns the current time in milliseconds and we can add some random amount of time to that to signify when we should next spawn an obstacle. For example, if we create the obstacle handler at time t = 0 and want to create obstacles every 500 MS, we can add 500 MS to 0 and wait until ```pygame.time.get_ticks()``` returns 500 to know that we have reached the time to spawn an obstacle.
+
+We see how this is used in the ```spawn_obstacle``` function. This function should be called every frame in the game loop and checks if we are ready to spawn a new obstacle. If so, it sets the next obstacle spawn time, checks if there are types of obstacles for us to pick from, uses random.choice (like Homework 5!!) to pick an obstacle from the list, create an object of that object class and then set the posiiton given the screen width and floor height, global variables I set up at the top of my file.
+
+```
+# DIMENSIONS OF THE SCREEN
+SCREEN_WIDTH = 768
+SCREEN_HEIGHT = 432
+
+# the height of the floor on the screen
+FLOOR_HEIGHT = 0
+```
+
+I later edited FLOOR_HEIGHT in main the global keyword like below:
+
+```
+ # global lets us edit globally created variables - we are editing the FLOOR_HEIGHT at the top of the file to be used when spawning objects
+global FLOOR_HEIGHT
+FLOOR_HEIGHT = screen.get_height()-floor.get_height()
+```
+
+Back to our obstacle_handler, ```add_obstacle_class``` pretty much does what it says, it lets us add a class of an object to the list of potential object classes to spawn. The ```draw_obstacles``` function iterates through all the obstacles in our list and draws them on the screen given using the obstacles own draw function. The ```obstacles_physics``` function iterates through all the obstacles and calls their physics functions like ```draw_obstacles```. Additionally, it checks if any of the objects in the list have been deactived and if so, it removes them from the list. This pretty much deletes the objects from memory since the list is the only thing referencing each object!
+
+Our last function in our Object Handler is ```check_collisions```. This function takes in a collider rect of another object, in our case this will be the dino, and it iterates through all the obstacles and checks if there are any collisions between them and the dino's collider rect. If so, the function will return true and false otherwise. 
+
+## Back to the beginning 
+
+All we have to do is put it all together now. Lets go back to our main function add in our obstacle handler and add the stump to the classes like below:
+
+```
+# create the obstacle handler and add the stump as one of the classes that cna be instantiated
+obstacle_handler = ObstacleHandler()
+obstacle_handler.add_obstacle_class(Stump)
+```
+
+Then we just have to call all the obstacle handlers functions, like spawn_obstacles, obstacle_physics, and draw_obstacles in the game loop and pass in the appropriate variables. I will let you figure ou the finishing steps :)
+
+After you have obstacles drawing to the screen and moving lets add in this code and see what happens:
+
+```
+ if(obstacle_handler.check_collisions(dino.get_collider_rect())):
+    print("Hit!")
+```
+
+You should see hit printed every time the dinosaur hits a stump now!!
+
+You can also change it to the code below:
+```
+ if(obstacle_handler.check_collisions(dino.get_collider_rect())):
+    running = False
+```
+
+Now everytime you hit a stump, the game will stop.
+
+## Congrats!
+
+<img width="652" alt="Screenshot 2025-04-30 at 7 40 20 PM" src="https://github.com/user-attachments/assets/44d45876-f940-4e11-b05b-7ea7ab79eefd" />
+
+You have officially made it through the tutorial and made your first game in Pygame! I learned everything I used in this tutorial using the classes resources and the Pygame documentation as well as this awesome video by [DaFluffyPotato on YouTube](https://www.youtube.com/watch?v=blLLtdv4tvo). 
+
+If anything didn't work for you, you can always check out my source code available on the [GitHub page where all the other assets are](https://github.com/JakasaurusRex/Pygame-Workshop/tree/main/dino-pygame)!
+
 
 ## Acknowledgements
 This workshop was created by Jake Torres for students in ENGI1006 Spring 2025
