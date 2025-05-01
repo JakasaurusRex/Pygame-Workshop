@@ -187,11 +187,11 @@ class Dino:
         elif self.state == "jump":
             return self.dino_jump
         elif self.state == "run":
-            if self.runnning_frame == 1:
-                self.runnning_frame = 2
+            if self.running_frame == 1:
+                self.running_frame = 2
                 return self.dino_run1
             else:
-                self.runnning_frame = 1
+                self.running_frame = 1
                 return self.dino_run2
 
     # get the height of the dinosaur surface
@@ -254,7 +254,7 @@ class Dino:
         self.y = 0
         self.floor_y = 0
         self.state = "run"
-        self.runnning_frame = 1
+        self.running_frame = 1
         self.jump = False
         self.falling = False
         self.vel_y = 0
