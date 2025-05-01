@@ -171,7 +171,7 @@ def draw_floor(screen, floor):
     screen.blit(floor, (0,screen.get_height()-floor.get_height()))
 ```
 
-After adding this code, calling the ```setup_background()``` and ```setup_floor()``` before the game loop and ```draw_background()``` and ```draw_floor()``` functions in the game loop, and running the script we will now see a much prettier background with our layered background and colorful floor! 
+After adding this code, calling the ```setup_background()``` and ```setup_floor()``` before the game loop and ```draw_background()``` and ```draw_floor()``` functions in the game loop, and running the script we will now see a much prettier background with our layered fauna and colorful grassy floor! 
 
 <img width="763" alt="Screenshot 2025-04-28 at 6 07 04 PM" src="https://github.com/user-attachments/assets/7d530bd6-03c9-4eed-a16a-bb3d9c679a88" />
 
