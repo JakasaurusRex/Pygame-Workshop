@@ -197,11 +197,11 @@ class Dino:
         elif self.state == "jump":
             return self.dino_jump
         elif self.state == "run": # we have 2 sprites that make it look the the dinosaur is running with his right and left leg that change every frame!
-            if self.runnning_frame == 1:
-                self.runnning_frame = 2
+            if self.running_frame == 1:
+                self.running_frame = 2
                 return self.dino_run1
             else:
-                self.runnning_frame = 1
+                self.running_frame = 1
                 return self.dino_run2
 
     # get the height of the dinosaur surface
