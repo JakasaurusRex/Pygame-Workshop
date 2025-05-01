@@ -196,7 +196,7 @@ class Dino:
             return self.dino_idle
         elif self.state == "jump":
             return self.dino_jump
-        elif self.state == "run":
+        elif self.state == "run": # we have 2 sprites that make it look the the dinosaur is running with his right and left leg that change every frame!
             if self.runnning_frame == 1:
                 self.runnning_frame = 2
                 return self.dino_run1
@@ -251,7 +251,7 @@ class Dino:
 Theres a lot of code here so lets break it down. In our init function, we first setup our dinosaur, which involves just loading surfaces for different states and sprites our dinosaur will be in. Then we setup our x and y variables, set our intitial state to running and the animation frame to 1, our jump and falling booleans to false and our y_velocity to 0. 
 
 We also have a bunch of helper functions:
-- current_sprite() - Returns the current surface depending upon the state of the dinosaur for drawing purposes
+- current_sprite() - Returns the current surface depending upon the state of the dinosaur for drawing purposes. We also update the frame from 1 to 2 or 2 to 1 to make it look like the dinosaur is running with 2 running sprites. 
 - get_width/get_height() - returns the width/height of the surfaces
 - draw(screen) - draws the dinosaurs current surface to the screen
 - set_position(x, y, is_floor) - sets the current coordinates of the dinosaur to the given x and y coords. It also updates a variable for the floors position that we will use later.
