@@ -610,6 +610,8 @@ You have officially made it through the tutorial and made your first game in Pyg
 If anything didn't work for you, you can always check out my source code available on the [GitHub page where all the other assets are](https://github.com/JakasaurusRex/Pygame-Workshop/tree/main/dino-pygame)!
 
 
+Interested in learning more about game development? [This is how I made the same game using the Godot Engine - a free, open-source, lightweight game engine that runs on any computer and is perfect for beginners](https://jakasaurusrex.github.io/GodotWorkshop/)!
+
 ## Acknowledgements
 This workshop was created by Jake Torres for students in ENGI1006 Spring 2025
 
