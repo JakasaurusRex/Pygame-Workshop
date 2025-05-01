@@ -179,7 +179,7 @@ After adding this code, calling the ```setup_background()``` and ```setup_floor(
 
 Now that we have a fancy backgrounds, lets add our character into our game. The character sprite we are going to be using is in the same [assets folder of the github repository](https://github.com/JakasaurusRex/Pygame-Workshop/tree/main/dino-pygame/assets) as before in the character subfolder! 
 
-The first thing we are going to do is pretty similar to the work you did in Homework 9. We are going to setup a class for our dinosaur that will encapsulate all of the functionality it will do such as, drawing it, updating the position and velocity, and changing the sprite for when we are running or jumping! You can copy this class into your code and read through it to understand how it works!
+The first thing we are going to do is pretty similar to the work you did in Homework 9. We are going to setup a class for our dinosaur that will encapsulate all of the functionality it will do such as drawing it, updating the position and velocity, and changing the sprite for when we are running or jumping! You can copy this class into your code and read through it to understand how it works!
 
 ```
 class Dino:
@@ -248,13 +248,13 @@ class Dino:
         self.vel_y = 0
 ```
 
-Theres a lot of code here so lets break it down. In our init function, we first setup our dinosaur, which involves just loading surfaces for different states and sprites our dinosaur will be in. Then we setup our x and y variables, set our intitial state to running and the animation frame to 1, our jump and falling booleans to false and our y_velocity to 0. 
+Theres a lot of code here so lets break it down. In our init function, we first setup our dinosaur, which involves just loading surfaces for different states and sprites our dinosaur will be in. Then we setup our x, y, and floor_y variables, set our intitial state to running and the animation frame to 1, our jump and falling booleans to false and our y_velocity to 0. 
 
 We also have a bunch of helper functions:
 - current_sprite() - Returns the current surface depending upon the state of the dinosaur for drawing purposes. We also update the frame from 1 to 2 or 2 to 1 to make it look like the dinosaur is running with 2 running sprites. 
 - get_width/get_height() - returns the width/height of the surfaces
-- draw(screen) - draws the dinosaurs current surface to the screen
-- set_position(x, y, is_floor) - sets the current coordinates of the dinosaur to the given x and y coords. It also updates a variable for the floors position that we will use later.
+- draw(screen) - draws the dinosaurs current surface to the screen at the current x and y position
+- set_position(x, y, is_floor) - sets the current coordinates of the dinosaur to the given x and y coords. It also updates floor_y to be the y value passed in if the boolean is True. We will use this later.
 - jumped() - Call this function to make the dinosaur jump - we can only jump if we are not falling!
 - physics() - This function will be called every frame before draw to update the position of the dinosaur based on the velocity
 
@@ -273,7 +273,7 @@ dino = Dino()
 dino.set_position(DINO_X_OFFSET, screen.get_height()-floor.get_height()-dino.get_height(), True)
 ```
 
-Draw out this math using the coordinate system I showed earlier if this math doesn't make sense! I also passed in True to inform the class that this is the floor Y position for the dinosaur. 
+Draw out this math using the coordinate system I showed earlier if this math doesn't make sense! I also passed in True to inform the class that this is the floor Y position for the dinosaur (this is the resting position of the dinosaur). 
 
 Last thing we need to do to get the dinosaur all setup is to update our game loop to handle keyboard input and to update the physics and draw the dinosuar. 
 
@@ -326,7 +326,7 @@ Test what happens if we add the following code to our physics function:
 
 ```
 
-Play the game and try to think about what is wrong with it! At the moment, we never check if we have landed and hit the ground. Luckily, we setup some functionality to allow us to make a check for this. 
+Play the game and try to think about what is wrong with it! At the moment, we never check if we have landed and hit the ground. Luckily, we setup some functionality beforehand to allow us to make a check for this. 
 
 ```
 if new_y_position >= self.floor_y:
@@ -348,11 +348,11 @@ The last feature we are going to add is obstacles and collision! This is going t
 
 ## Rects and Collision
 
-In Pygame, we can check for collisions by using Rect objects. Rects are exactly what you think they are. They are just square boxes with a x, and y position of the top left corner and then a width and a height. Rects can be used to check for collision using the ```rect.colliderect()``` function. How it works is you pass in another Rect into the parenthesis and it determines if there is any overlap of the rectangles like below.
+In Pygame, we can check for collisions by using Rect objects. Rects are exactly what you think they are. They are just boxes with a x and y position of the top left corner and a width and a height. Rects can be used to check for collision using the ```rect.colliderect()``` function. How it works is you pass in another Rect into the parenthesis and it determines if there is any overlap of the rectangles like below.
 
 <img width="140" alt="Screenshot 2025-04-30 at 7 05 03 PM" src="https://github.com/user-attachments/assets/50a1802a-dbb5-4913-876d-ecb47de30b0d" />
 
-We can add a rectangle to the Dinosaur that has the same position as the dinosaur itself, and the same width and height as the surface. Then we can add Rectangles to our obstacles that we can check if are colliding with the player Dinosaur. If you are confused by how this works, [this video by Coding with Russ explains it super easily!](https://www.youtube.com/watch?v=BHr9jxKithk) It is also what I used to wrap my head around it!
+We can add a rectangle to the Dinosaur that has the same position as the dinosaur itself, and the same width and height as the surface. This will be our Dinosaurs collision box. Then we can add Rectangles to our obstacles that we can check if are colliding with the player Dinosaur. If you are confused by how this works, [this video by Coding with Russ explains it super easily!](https://www.youtube.com/watch?v=BHr9jxKithk) It is also what I used to wrap my head around it!
 
 ## Updating Mr Dino
 
@@ -386,7 +386,7 @@ def get_collider_rect(self):
             self.floor_y = y
 ```
 
-First we just create a collider_rect that is the same position as the default position (0,0) and has the same width and height as our dinosaur. Then we add a function to return that collider rect so that it can be accessed outside of the dinosaur and lastly we need to make sure we update the position of the collider rect every time we move the dinosaur.
+First we just create a collider_rect that is the same position as the default position (0,0) and has the same width and height as our dinosaur. Then we add a function to return that collider rect so that it can be accessed outside of the dinosaur and lastly we need to make sure we update the position of the collider rect every time we move the dinosaur. If we don't update the collider when the dinosaur moves, the hitbox is not going to align with the visual representation of the dinosaur D:
 
 Thats all we have to update here!
 
